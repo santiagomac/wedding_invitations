@@ -5,6 +5,7 @@ import com.santiagomac.invitation.application.dto.RsvpRequest;
 import com.santiagomac.invitation.application.usecases.GetInvitationUseCase;
 import com.santiagomac.invitation.application.usecases.RsvpUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,21 +14,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Log4j2
 @RestController
 @RequestMapping("/api/v1/invitations")
 @RequiredArgsConstructor
 public class InvitationPublicController {
 
-    private final GetInvitationUseCase getInvitationUseCase;
-    private final RsvpUseCase rsvpUseCase;
+  private final GetInvitationUseCase getInvitationUseCase;
+  private final RsvpUseCase rsvpUseCase;
 
-    @GetMapping("/{code}")
-    public ResponseEntity<InvitationResponse> getInvitation(@PathVariable String code) {
-        return ResponseEntity.ok(this.getInvitationUseCase.getByCode(code));
-    }
+  @GetMapping("/{code}")
+  public ResponseEntity<InvitationResponse> getInvitation(@PathVariable String code) {
+    log.info("Getting the information for the invitation with code: {}", code);
+    return ResponseEntity.ok(this.getInvitationUseCase.getByCode(code));
+  }
 
-    @PostMapping("/{code}/rsvp")
-    public ResponseEntity<InvitationResponse> rsvp(@PathVariable String code, @RequestBody RsvpRequest request) {
-        return ResponseEntity.ok(this.rsvpUseCase.rsvp(code, request));
-    }
+  @PostMapping("/{code}/rsvp")
+  public ResponseEntity<InvitationResponse> rsvp(
+      @PathVariable String code, @RequestBody RsvpRequest request) {
+    return ResponseEntity.ok(this.rsvpUseCase.rsvp(code, request));
+  }
 }

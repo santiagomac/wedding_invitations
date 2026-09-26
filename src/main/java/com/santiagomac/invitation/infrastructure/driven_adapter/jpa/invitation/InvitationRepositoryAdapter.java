@@ -64,6 +64,7 @@ public class InvitationRepositoryAdapter implements InvitationGateway {
                 .maxGuests(model.getMaxGuests())
                 .status(model.getStatus())
                 .confirmedGuests(model.getConfirmedGuests())
+                .createdAt(model.getCreatedAt())
                 .respondedAt(model.getRespondedAt())
                 .build();
     }
