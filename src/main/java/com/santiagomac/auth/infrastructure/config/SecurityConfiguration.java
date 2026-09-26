@@ -3,6 +3,7 @@ package com.santiagomac.auth.infrastructure.config;
 import com.santiagomac.auth.infrastructure.driven_adapter.security.CookieBearerTokenResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,9 +27,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
@@ -78,18 +81,19 @@ public class SecurityConfiguration {
       return defaultConverter.convert(jwt);
     }
 
-    return List.of(roles.split(" ")).stream()
+    return Stream.of(roles.split(" "))
         .filter(role -> !role.isBlank())
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toList());
   }
 
   @Bean
-  CorsConfigurationSource corsConfigurationSource() {
+  CorsConfigurationSource corsConfigurationSource(
+      @Value("${cors.allowed-origins}") String allowedOrigins) {
     CorsConfiguration configuration = new CorsConfiguration();
 
     // CHANGE THIS TO YOUR DOMAIN AND METHOD ALLOWED
-    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+    configuration.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).toList());
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
     configuration.setAllowCredentials(true);

@@ -13,3 +13,6 @@ spring:
 security:
   jwt:
     secret-key: ${SECRET_KEY}
+
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS}
