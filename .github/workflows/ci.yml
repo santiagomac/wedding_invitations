@@ -35,11 +35,11 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build \
-          -t ghcr.io/maclasoft/my-api:${{ github.sha }} \
-          -t ghcr.io/maclasoft/my-api:latest \
+          -t ghcr.io/${{ github.repository }}:${{ github.sha }} \
+          -t ghcr.io/${{ github.repository }}:latest \
           .
 
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/maclasoft/my-api:${{ github.sha }}
-          docker push ghcr.io/maclasoft/my-api:latest
+          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}:latest
