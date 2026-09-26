@@ -1,15 +1,15 @@
 spring:
   application:
-    name: ${APPLICATION_NAME:WeddingApplication}
+    name: WeddingApplication
   datasource:
-    url: jdbc:postgresql://localhost:5432/${DATABASE:wedding}
+    url: jdbc:postgresql://${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
-    username: ${DB_USERNAME:santiagomac}
-    password: ${DB_PASSWORD:santim100}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
 
 security:
   jwt:
-    secret-key: ${SECRET_KEY:123asdkjasdkljk12j31k2j3kajsdkajsdkljk1l2j3k1ljkajsdklaj}
+    secret-key: ${SECRET_KEY}
