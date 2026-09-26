@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21-jre
 
-RUN addgroup -S nonroot \
-    && adduser -S nonroot -G nonroot
+RUN groupadd --system nonroot \
+    && useradd --system --gid nonroot nonroot
 
 USER nonroot
 
